@@ -1,0 +1,1 @@
+# ah5-app-aitia-interface-translator-to-generic-mqtt-java-spring
