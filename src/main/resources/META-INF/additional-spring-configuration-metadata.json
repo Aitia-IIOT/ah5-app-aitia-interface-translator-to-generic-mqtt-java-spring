@@ -1,0 +1,102 @@
+{"properties": [
+  {
+    "name": "service.registry.address",
+    "type": "java.lang.String",
+    "description": "A description for 'service.registry.address'"
+  },
+  {
+    "name": "service.registry.port",
+    "type": "java.lang.Integer",
+    "description": "A description for 'service.registry.port'"
+  },
+  {
+    "name": "domain.name",
+    "type": "java.lang.String",
+    "description": "A description for 'domain.name'"
+  },
+  {
+    "name": "authentication.policy",
+    "type": "eu.arrowhead.common.http.filter.authentication.AuthenticationPolicy",
+    "description": "A description for 'authentication.policy'"
+  },
+  {
+    "name": "enable.authorization",
+    "type": "java.lang.Boolean",
+    "description": "A description for 'enable.authorization'"
+  },
+  {
+    "name": "log.all.request.and.response",
+    "type": "java.lang.Boolean",
+    "description": "A description for 'log.all.request.and.response'"
+  },
+  {
+    "name": "disable.hostname.verifier",
+    "type": "java.lang.Boolean",
+    "description": "A description for 'disable.hostname.verifier'"
+  },
+  {
+    "name": "normalization.mode",
+    "type": "eu.arrowhead.common.service.normalization.NormalizationMode",
+    "description": "A description for 'normalization.mode'"
+  },
+  {
+    "name": "token.encryption.key",
+    "type": "java.lang.String",
+    "description": "A description for 'token.encryption.key'"
+  },
+  {
+    "name": "http.client.socket.timeout",
+    "type": "java.lang.Long",
+    "description": "A description for 'http.client.socket.timeout'"
+  },
+  {
+    "name": "data.model.translator.get.result.tries",
+    "type": "java.lang.Integer",
+    "description": "A description for 'data.model.translator.get.result.tries'"
+  },
+  {
+    "name": "data.model.translator.get.result.wait",
+    "type": "java.lang.Long",
+    "description": "A description for 'data.model.translator.get.result.wait'"
+  },
+  {
+    "name": "target.interface.ssl.enabled",
+    "type": "java.lang.Boolean",
+    "description": "A description for 'target.interface.ssl.enabled'"
+  },
+  {
+    "name": "system.name",
+    "type": "java.lang.String",
+    "description": "A description for 'system.name'"
+  },
+  {
+    "name": "bridge.closing.interval",
+    "type": "java.lang.Long",
+    "description": "A description for 'bridge.closing.interval'"
+  },
+  {
+    "name": "bridge.inactivity.threshold",
+    "type": "java.lang.Integer",
+    "description": "A description for 'bridge.inactivity.threshold'"
+  },
+  {
+    "name": "mqtt.broker.address",
+    "type": "java.lang.String",
+    "description": "A description for 'mqtt.broker.address'"
+  },
+  {
+    "name": "mqtt.broker.port",
+    "type": "java.lang.Integer",
+    "description": "A description for 'mqtt.broker.port'"
+  },
+  {
+    "name": "mqtt.client.password",
+    "type": "java.lang.String",
+    "description": "A description for 'mqtt.client.password'"
+  },
+  {
+    "name": "mqtt.handler.threads",
+    "type": "java.lang.Integer",
+    "description": "A description for 'mqtt.handler.threads'"
+  }
+]}
