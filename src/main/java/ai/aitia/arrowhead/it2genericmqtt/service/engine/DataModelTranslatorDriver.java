@@ -13,7 +13,7 @@
  *  	AITIA
  *
  *******************************************************************************/
-package ai.aitia.arrowhead.it2generichttp.service.engine;
+package ai.aitia.arrowhead.it2genericmqtt.service.engine;
 
 import java.util.List;
 import java.util.Map;

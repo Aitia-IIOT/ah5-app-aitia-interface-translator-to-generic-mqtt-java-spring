@@ -30,9 +30,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ai.aitia.arrowhead.it2generichttp.service.DynamicService;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
 import ai.aitia.arrowhead.it2genericmqtt.api.http.utils.PayloadProcessor;
+import ai.aitia.arrowhead.it2genericmqtt.service.DynamicService;
 import eu.arrowhead.common.Utilities;
 import eu.arrowhead.common.exception.ArrowheadException;
 import eu.arrowhead.common.http.HttpUtilities;

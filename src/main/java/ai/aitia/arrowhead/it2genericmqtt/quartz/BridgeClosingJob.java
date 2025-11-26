@@ -29,9 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import ai.aitia.arrowhead.it2generichttp.service.model.BridgeStore;
-import ai.aitia.arrowhead.it2generichttp.service.model.NormalizedTranslationBridgeModel;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
+import ai.aitia.arrowhead.it2genericmqtt.service.model.BridgeStore;
+import ai.aitia.arrowhead.it2genericmqtt.service.model.NormalizedTranslationBridgeModel;
 import eu.arrowhead.common.Utilities;
 import eu.arrowhead.dto.TranslationReportRequestDTO;
 import eu.arrowhead.dto.enums.TranslationBridgeEventState;

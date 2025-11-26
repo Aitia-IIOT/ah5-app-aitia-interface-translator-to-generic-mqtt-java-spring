@@ -31,8 +31,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ai.aitia.arrowhead.Constants;
-import ai.aitia.arrowhead.it2generichttp.service.ManagementService;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
+import ai.aitia.arrowhead.it2genericmqtt.service.ManagementService;
 import eu.arrowhead.dto.ErrorMessageDTO;
 import eu.arrowhead.dto.ServiceInstanceInterfaceResponseDTO;
 import eu.arrowhead.dto.TranslationBridgeInitializationRequestDTO;

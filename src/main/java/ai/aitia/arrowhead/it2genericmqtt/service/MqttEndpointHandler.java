@@ -13,7 +13,7 @@
  *  	AITIA
  *
  *******************************************************************************/
-package ai.aitia.arrowhead.it2generichttp.service;
+package ai.aitia.arrowhead.it2genericmqtt.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -21,10 +21,9 @@ import org.eclipse.paho.client.mqttv3.MqttException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import ai.aitia.arrowhead.it2generichttp.service.model.NormalizedTranslationBridgeModel;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
-import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTSystemInfo;
 import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.DynamicMqttClient;
+import ai.aitia.arrowhead.it2genericmqtt.service.model.NormalizedTranslationBridgeModel;
 import eu.arrowhead.common.exception.ExternalServerError;
 import eu.arrowhead.common.exception.InternalServerError;
 
@@ -37,9 +36,6 @@ public class MqttEndpointHandler implements EndpointHandler {
 	private final Logger logger = LogManager.getLogger(this.getClass());
 
 	@Autowired
-	private InterfaceTranslatorToGenericMQTTSystemInfo sysInfo;
-
-	@Autowired
 	private DynamicMqttClient mqttClient;
 
 	//=================================================================================================
@@ -49,10 +45,6 @@ public class MqttEndpointHandler implements EndpointHandler {
 	@Override
 	public void initializeBridge(final NormalizedTranslationBridgeModel model) throws InternalServerError, ExternalServerError {
 		logger.debug("MqttEndpointHandler.initializeBridge started...");
-
-		if (!sysInfo.isMqttBridgeEnabled()) {
-			throw new InternalServerError("MQTT API is not enabled for translation bridges");
-		}
 
 		final String topic = InterfaceTranslatorToGenericMQTTConstants.MQTT_DYNAMIC_BASE_TOPIC_PREFIX
 				+ model.endpointId().toString()
@@ -71,10 +63,6 @@ public class MqttEndpointHandler implements EndpointHandler {
 	@Override
 	public void abortBridge(final NormalizedTranslationBridgeModel model) throws InternalServerError, ExternalServerError {
 		logger.debug("MqttEndpointHandler.abortBridge started...");
-
-		if (!sysInfo.isMqttBridgeEnabled()) {
-			throw new InternalServerError("MQTT API is not enabled for translation bridges");
-		}
 
 		final String topic = InterfaceTranslatorToGenericMQTTConstants.MQTT_DYNAMIC_BASE_TOPIC_PREFIX
 				+ model.endpointId().toString()

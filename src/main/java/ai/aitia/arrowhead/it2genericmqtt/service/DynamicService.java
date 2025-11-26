@@ -13,7 +13,7 @@
  *  	AITIA
  *
  *******************************************************************************/
-package ai.aitia.arrowhead.it2generichttp.service;
+package ai.aitia.arrowhead.it2genericmqtt.service;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
@@ -28,12 +28,12 @@ import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import ai.aitia.arrowhead.it2generichttp.service.engine.DataModelTranslatorEngine;
-import ai.aitia.arrowhead.it2generichttp.service.engine.ProviderDriver;
-import ai.aitia.arrowhead.it2generichttp.service.model.BridgeStore;
-import ai.aitia.arrowhead.it2generichttp.service.model.NormalizedTranslationBridgeModel;
-import ai.aitia.arrowhead.it2generichttp.service.validation.DynamicServiceValidation;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
+import ai.aitia.arrowhead.it2genericmqtt.service.engine.DataModelTranslatorEngine;
+import ai.aitia.arrowhead.it2genericmqtt.service.engine.ProviderDriver;
+import ai.aitia.arrowhead.it2genericmqtt.service.model.BridgeStore;
+import ai.aitia.arrowhead.it2genericmqtt.service.model.NormalizedTranslationBridgeModel;
+import ai.aitia.arrowhead.it2genericmqtt.service.validation.DynamicServiceValidation;
 import eu.arrowhead.common.Utilities;
 import eu.arrowhead.common.exception.ExternalServerError;
 import eu.arrowhead.common.exception.InvalidParameterException;

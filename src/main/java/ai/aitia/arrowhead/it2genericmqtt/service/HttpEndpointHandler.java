@@ -13,11 +13,11 @@
  *  	AITIA
  *
  *******************************************************************************/
-package ai.aitia.arrowhead.it2generichttp.service;
+package ai.aitia.arrowhead.it2genericmqtt.service;
 
 import org.springframework.stereotype.Service;
 
-import ai.aitia.arrowhead.it2generichttp.service.model.NormalizedTranslationBridgeModel;
+import ai.aitia.arrowhead.it2genericmqtt.service.model.NormalizedTranslationBridgeModel;
 import eu.arrowhead.common.exception.ExternalServerError;
 import eu.arrowhead.common.exception.InternalServerError;
 

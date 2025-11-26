@@ -13,7 +13,7 @@
  *  	AITIA
  *
  *******************************************************************************/
-package ai.aitia.arrowhead.it2generichttp.service.validation;
+package ai.aitia.arrowhead.it2genericmqtt.service.validation;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import ai.aitia.arrowhead.it2generichttp.service.model.NormalizedTranslationBridgeModel;
+import ai.aitia.arrowhead.it2genericmqtt.service.model.NormalizedTranslationBridgeModel;
 import eu.arrowhead.common.Utilities;
 import eu.arrowhead.common.exception.InvalidParameterException;
 

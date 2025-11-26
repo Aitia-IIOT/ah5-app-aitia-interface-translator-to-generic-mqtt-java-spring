@@ -13,7 +13,7 @@
  *  	AITIA
  *
  *******************************************************************************/
-package ai.aitia.arrowhead.it2generichttp.service.engine;
+package ai.aitia.arrowhead.it2genericmqtt.service.engine;
 
 import java.util.Map;
 import java.util.UUID;
@@ -27,8 +27,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import ai.aitia.arrowhead.Constants;
-import ai.aitia.arrowhead.it2generichttp.service.model.BridgeStore;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
+import ai.aitia.arrowhead.it2genericmqtt.service.model.BridgeStore;
 import eu.arrowhead.common.Utilities;
 import eu.arrowhead.common.exception.ExternalServerError;
 import eu.arrowhead.dto.DataModelTranslationResultResponseDTO;

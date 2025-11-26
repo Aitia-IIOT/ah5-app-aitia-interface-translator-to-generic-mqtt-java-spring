@@ -35,8 +35,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ai.aitia.arrowhead.Constants;
-import ai.aitia.arrowhead.it2generichttp.service.DynamicService;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
+import ai.aitia.arrowhead.it2genericmqtt.service.DynamicService;
 import eu.arrowhead.common.Utilities;
 import eu.arrowhead.common.exception.ArrowheadException;
 import eu.arrowhead.common.exception.ExternalServerError;
