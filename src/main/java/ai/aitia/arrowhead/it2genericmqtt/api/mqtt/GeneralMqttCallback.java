@@ -26,12 +26,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
-import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.DynamicMqttClient;
+import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.GeneralMqttClient;
 import eu.arrowhead.common.mqtt.model.MqttMessageContainer;
 import jakarta.annotation.Resource;
 
 @Service
-public class DynamicMqttCallback implements MqttCallback {
+public class GeneralMqttCallback implements MqttCallback {
 
 	//=================================================================================================
 	// members
@@ -39,7 +39,7 @@ public class DynamicMqttCallback implements MqttCallback {
 	private final Logger logger = LogManager.getLogger(getClass());
 
 	@Autowired
-	private DynamicMqttClient client;
+	private GeneralMqttClient client;
 
 	@Resource(name = InterfaceTranslatorToGenericMQTTConstants.MQTT_BRIDGE_QUEUE)
 	private BlockingQueue<MqttMessageContainer> queue;
@@ -51,8 +51,14 @@ public class DynamicMqttCallback implements MqttCallback {
 	@Override
 	public void messageArrived(final String topic, final MqttMessage message) throws Exception {
 		logger.debug("messageArrived started...");
-
-		queue.add(new MqttMessageContainer(topic, message));
+		
+		if (topic.startsWith(InterfaceTranslatorToGenericMQTTConstants.MQTT_DYNAMIC_BASE_TOPIC_PREFIX)) {
+			queue.add(new MqttMessageContainer(topic, message));
+		} else if (topic.equals(InterfaceTranslatorToGenericMQTTConstants.MQTT_RESPONSE_TOPIC)) {
+			// TODO: handle responses from providers
+		} else {
+			logger.warn("Unexpected message on topic: {}", topic);
+		}
 	}
 
 	//-------------------------------------------------------------------------------------------------

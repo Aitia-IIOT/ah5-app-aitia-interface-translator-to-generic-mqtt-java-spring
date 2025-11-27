@@ -29,7 +29,7 @@ import ai.aitia.arrowhead.Constants;
 import ai.aitia.arrowhead.Defaults;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTSystemInfo;
-import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.DynamicMqttClient;
+import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.GeneralMqttClient;
 import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.DynamicMqttTopicHandler;
 import ai.aitia.arrowhead.it2genericmqtt.report.ReportThread;
 import eu.arrowhead.common.Utilities;
@@ -56,7 +56,7 @@ public class InterfaceTranslatorToGenericMQTTApplicationInitListener extends App
 	private BlockingQueue<TranslationReportRequestDTO> reportQueue;
 
 	@Autowired
-	private DynamicMqttClient mqttClient;
+	private GeneralMqttClient mqttClient;
 
 	@Autowired
 	private DynamicMqttTopicHandler mqttTopicHandler;
@@ -73,6 +73,7 @@ public class InterfaceTranslatorToGenericMQTTApplicationInitListener extends App
 
 		try {
 			mqttClient.initialize();
+			mqttClient.subscribe(InterfaceTranslatorToGenericMQTTConstants.MQTT_RESPONSE_TOPIC);
 		} catch (final MqttException ex) {
 			logger.error(ex.getMessage());
 			logger.debug(ex);
@@ -106,6 +107,7 @@ public class InterfaceTranslatorToGenericMQTTApplicationInitListener extends App
 		}
 
 		try {
+			mqttClient.unsubscribe(InterfaceTranslatorToGenericMQTTConstants.MQTT_RESPONSE_TOPIC);
 			mqttTopicHandler.interrupt();
 			mqttClient.destroy();
 		} catch (final MqttException ex) {

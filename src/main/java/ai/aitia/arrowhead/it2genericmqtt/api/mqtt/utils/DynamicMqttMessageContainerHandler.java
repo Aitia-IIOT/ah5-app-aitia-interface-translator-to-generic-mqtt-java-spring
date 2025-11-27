@@ -58,7 +58,7 @@ public class DynamicMqttMessageContainerHandler implements Runnable {
 	// members
 
 	@Autowired
-	private DynamicMqttClient client;
+	private GeneralMqttClient client;
 
 	@Autowired
 	private DynamicService service;

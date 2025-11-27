@@ -25,6 +25,8 @@ import org.springframework.stereotype.Component;
 
 import ai.aitia.arrowhead.Constants;
 import eu.arrowhead.common.SystemInfo;
+import eu.arrowhead.common.Utilities;
+import eu.arrowhead.common.exception.InvalidParameterException;
 import eu.arrowhead.common.http.filter.authentication.AuthenticationPolicy;
 import eu.arrowhead.common.http.model.HttpInterfaceModel;
 import eu.arrowhead.common.http.model.HttpOperationModel;
@@ -112,6 +114,18 @@ public class InterfaceTranslatorToGenericMQTTSystemInfo extends SystemInfo {
 
 	//=================================================================================================
 	// assistant methods
+	
+	//-------------------------------------------------------------------------------------------------
+	@Override
+	protected void customInit() {
+		if (Utilities.isEmpty(getMqttBrokerAddress())) {
+			throw new InvalidParameterException("MQTT Broker address is not defined");
+		}
+
+		if (getMqttBrokerPort() == null) {
+			throw new InvalidParameterException("MQTT Broker port is not defined");
+		}
+	}
 
 	//-------------------------------------------------------------------------------------------------
 	private InterfaceModel getHTTPInterfaceForInterfaceBridgeManagement() {

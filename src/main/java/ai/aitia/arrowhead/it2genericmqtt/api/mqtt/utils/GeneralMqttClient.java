@@ -43,12 +43,12 @@ import org.springframework.util.Assert;
 import ai.aitia.arrowhead.Constants;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTSystemInfo;
-import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.DynamicMqttCallback;
+import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.GeneralMqttCallback;
 import eu.arrowhead.common.SSLProperties;
 import eu.arrowhead.common.Utilities;
 
 @Component
-public class DynamicMqttClient {
+public class GeneralMqttClient {
 
 	//=================================================================================================
 	// members
@@ -77,7 +77,7 @@ public class DynamicMqttClient {
 		logger.debug("DynamicMqttClient.initialize started...");
 
 		final MqttClient client = createAndConnect();
-		final DynamicMqttCallback callback = appContext.getBean(DynamicMqttCallback.class);
+		final GeneralMqttCallback callback = appContext.getBean(GeneralMqttCallback.class);
 		client.setCallback(callback);
 		this.client = client;
 	}

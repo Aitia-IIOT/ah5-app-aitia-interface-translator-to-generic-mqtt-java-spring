@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
-import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.DynamicMqttClient;
+import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.GeneralMqttClient;
 import ai.aitia.arrowhead.it2genericmqtt.service.model.NormalizedTranslationBridgeModel;
 import eu.arrowhead.common.exception.ExternalServerError;
 import eu.arrowhead.common.exception.InternalServerError;
@@ -36,7 +36,7 @@ public class MqttEndpointHandler implements EndpointHandler {
 	private final Logger logger = LogManager.getLogger(this.getClass());
 
 	@Autowired
-	private DynamicMqttClient mqttClient;
+	private GeneralMqttClient mqttClient;
 
 	//=================================================================================================
 	// methods
