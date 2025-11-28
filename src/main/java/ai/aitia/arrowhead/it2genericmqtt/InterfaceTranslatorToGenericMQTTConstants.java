@@ -39,6 +39,13 @@ public final class InterfaceTranslatorToGenericMQTTConstants {
 	public static final String DATA_MODEL_TRANSLATOR_GET_RESULT_WAIT = "data.model.translator.get.result.wait";
 	public static final String $DATA_MODEL_TRANSLATOR_GET_RESULT_WAIT_WD = "${" + DATA_MODEL_TRANSLATOR_GET_RESULT_WAIT + ":"
 			+ InterfaceTranslatorToGenericMQTTDefaults.DATA_MODEL_TRANSLATOR_GET_RESULT_WAIT_DEFAULT + "}";
+	public static final String PROVIDER_SERVICE_GET_RESULT_TRIES = "provider.service.get.result.tries";
+	public static final String $PROVIDER_SERVICE_GET_RESULT_TRIES_WD = "${" + PROVIDER_SERVICE_GET_RESULT_TRIES + ":"
+			+ InterfaceTranslatorToGenericMQTTDefaults.PROVIDER_SERVICE_GET_RESULT_TRIES_DEFAULT + "}";
+	public static final String PROVIDER_SERVICE_GET_RESULT_WAIT = "provider.service.get.result.wait";
+	public static final String $PROVIDER_SERVICE_GET_RESULT_WAIT_WD = "${" + PROVIDER_SERVICE_GET_RESULT_WAIT + ":"
+			+ InterfaceTranslatorToGenericMQTTDefaults.PROVIDER_SERVICE_GET_RESULT_WAIT_DEFAULT + "}";
+
 	public static final String BRIDGE_CLOSING_INTERVAL = "bridge.closing.interval";
 	public static final String $BRIDGE_CLOSING_INTERVAL_WD = "${" + BRIDGE_CLOSING_INTERVAL + ":" + InterfaceTranslatorToGenericMQTTDefaults.BRIDGE_CLOSING_INTERVAL_DEFAULT + "}";
 	public static final String BRIDGE_INACTIVITY_THRESHOLD = "bridge.inactivity.threshold";
@@ -60,8 +67,9 @@ public final class InterfaceTranslatorToGenericMQTTConstants {
 
 	public static final String MQTT_BRIDGE_BROKER_CONNECT_ID = "TRANSLATION-BRIDGE-" + UUID.randomUUID().toString();
 	public static final String MQTT_DYNAMIC_BASE_TOPIC_PREFIX = "arrowhead/interface/translator/dynamic/";
-	public static final String MQTT_RESPONSE_TOPIC = "arrowhead/interface/provider/response/" + UUID.randomUUID().toString();
-	public static final String MQTT_BRIDGE_QUEUE = "mqttBridgeQueue";
+	public static final String MQTT_RESPONSE_TOPIC_SUFFIX =  UUID.randomUUID().toString();
+	public static final String MQTT_RESPONSE_TOPIC = "arrowhead/interface/provider/response/" + MQTT_RESPONSE_TOPIC_SUFFIX;
+	public static final String MQTT_GENERAL_QUEUE = "mqttGeneralQueue";
 	public static final String MQTT_ORIGINAL_MIME_TYPE = "application/json";
 
 	public static final String POLICY_TRANSLATION_BRIDGE_TOKEN_AUTH = "TRANSLATION_BRIDGE_TOKEN_AUTH";
@@ -69,6 +77,7 @@ public final class InterfaceTranslatorToGenericMQTTConstants {
 	public static final String REPORT_QUEUE = "reportQueue";
 	public static final String BRIDGE_CLOSING_TRIGGER = "bridgeClosingTrigger";
 	public static final String BRIDGE_CLOSING_JOB_FACTORY = "bridgeClosingJobFactory";
+	public static final String PROVIDER_RESPONSE_MAP = "providerResponseMap";
 
 	//=================================================================================================
 	// assistant methods

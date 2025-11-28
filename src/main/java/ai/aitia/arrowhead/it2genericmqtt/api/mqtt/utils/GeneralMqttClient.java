@@ -74,7 +74,7 @@ public class GeneralMqttClient {
 
 	//-------------------------------------------------------------------------------------------------
 	public void initialize() throws MqttException {
-		logger.debug("DynamicMqttClient.initialize started...");
+		logger.debug("GeneralMqttClient.initialize started...");
 
 		final MqttClient client = createAndConnect();
 		final GeneralMqttCallback callback = appContext.getBean(GeneralMqttCallback.class);
@@ -84,7 +84,7 @@ public class GeneralMqttClient {
 
 	//-------------------------------------------------------------------------------------------------
 	public void destroy() throws MqttException {
-		logger.debug("DynamicMqttClient.destroy started...");
+		logger.debug("GeneralMqttClient.destroy started...");
 
 		client.close();
 		client = null;
@@ -92,7 +92,7 @@ public class GeneralMqttClient {
 
 	//-------------------------------------------------------------------------------------------------
 	public void subscribe(final String topic) throws MqttException {
-		logger.debug("DynamicMqttClient.subscribe started...");
+		logger.debug("GeneralMqttClient.subscribe started...");
 
 		if (client != null
 				&& !Utilities.isEmpty(topic)) {
@@ -102,7 +102,7 @@ public class GeneralMqttClient {
 
 	//-------------------------------------------------------------------------------------------------
 	public void unsubscribe(final String topic) throws MqttException {
-		logger.debug("DynamicMqttClient.unsubscribe started...");
+		logger.debug("GeneralMqttClient.unsubscribe started...");
 
 		if (client != null
 				&& !Utilities.isEmpty(topic)) {
@@ -112,14 +112,14 @@ public class GeneralMqttClient {
 
 	//-------------------------------------------------------------------------------------------------
 	public String getServerURI() {
-		logger.debug("DynamicMqttClient.getServerURI started...");
+		logger.debug("GeneralMqttClient.getServerURI started...");
 
 		return client != null ? client.getServerURI() : "";
 	}
 
 	//-------------------------------------------------------------------------------------------------
 	public void publish(final String topic, final MqttMessage msg) throws MqttPersistenceException, MqttException {
-		logger.debug("DynamicMqttClient.publish started...");
+		logger.debug("GeneralMqttClient.publish started...");
 
 		if (client != null
 				&& !Utilities.isEmpty(topic)

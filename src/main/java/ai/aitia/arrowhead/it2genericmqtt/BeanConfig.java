@@ -15,7 +15,10 @@
  *******************************************************************************/
 package ai.aitia.arrowhead.it2genericmqtt;
 
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.function.Function;
 
@@ -26,6 +29,7 @@ import org.springframework.context.annotation.Scope;
 
 import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.DynamicMqttMessageContainerHandler;
 import eu.arrowhead.common.mqtt.model.MqttMessageContainer;
+import eu.arrowhead.dto.MqttResponseTemplate;
 import eu.arrowhead.dto.TranslationReportRequestDTO;
 
 @Configuration
@@ -41,9 +45,15 @@ public class BeanConfig {
 	}
 
 	//-------------------------------------------------------------------------------------------------
-	@Bean(InterfaceTranslatorToGenericMQTTConstants.MQTT_BRIDGE_QUEUE)
+	@Bean(InterfaceTranslatorToGenericMQTTConstants.MQTT_GENERAL_QUEUE)
 	BlockingQueue<MqttMessageContainer> getMqttBridgeQueue() {
 		return new LinkedBlockingQueue<>();
+	}
+
+	//-------------------------------------------------------------------------------------------------
+	@Bean(InterfaceTranslatorToGenericMQTTConstants.PROVIDER_RESPONSE_MAP)
+	Map<String, Optional<MqttResponseTemplate>> getProviderResponseMap() {
+		return new ConcurrentHashMap<>();
 	}
 
 	//-------------------------------------------------------------------------------------------------

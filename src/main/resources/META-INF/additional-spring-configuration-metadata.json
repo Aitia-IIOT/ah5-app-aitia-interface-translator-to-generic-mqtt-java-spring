@@ -98,5 +98,15 @@
     "name": "mqtt.handler.threads",
     "type": "java.lang.Integer",
     "description": "A description for 'mqtt.handler.threads'"
+  },
+  {
+    "name": "provider.service.get.result.tries",
+    "type": "java.lang.Integer",
+    "description": "A description for 'provider.service.get.result.tries'"
+  },
+  {
+    "name": "provider.service.get.result.wait",
+    "type": "java.lang.Long",
+    "description": "A description for 'provider.service.get.result.wait'"
   }
 ]}

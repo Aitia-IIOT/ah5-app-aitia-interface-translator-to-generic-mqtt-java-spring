@@ -101,12 +101,14 @@ public class DynamicService {
 
 			// calling the target operation
 			final Pair<Integer, Optional<byte[]>> response = providerDriver.callOperation(
+					model.bridgeId(),
 					model.operation(),
 					model.targetInterface(),
 					model.targetInterfaceProperties(),
 					inputData.getFirst().orElse(null),
 					inputData.getSecond().orElse(null),
-					model.authorizationToken());
+					model.authorizationToken(),
+					model.interfaceTranslatorSettings());
 
 			validator.crossCheckModelAndResult(model, response.getSecond(), origin);
 

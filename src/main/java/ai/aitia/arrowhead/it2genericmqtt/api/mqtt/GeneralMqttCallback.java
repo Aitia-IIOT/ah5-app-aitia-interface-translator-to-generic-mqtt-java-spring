@@ -41,7 +41,7 @@ public class GeneralMqttCallback implements MqttCallback {
 	@Autowired
 	private GeneralMqttClient client;
 
-	@Resource(name = InterfaceTranslatorToGenericMQTTConstants.MQTT_BRIDGE_QUEUE)
+	@Resource(name = InterfaceTranslatorToGenericMQTTConstants.MQTT_GENERAL_QUEUE)
 	private BlockingQueue<MqttMessageContainer> queue;
 
 	//=================================================================================================
@@ -52,13 +52,7 @@ public class GeneralMqttCallback implements MqttCallback {
 	public void messageArrived(final String topic, final MqttMessage message) throws Exception {
 		logger.debug("messageArrived started...");
 		
-		if (topic.startsWith(InterfaceTranslatorToGenericMQTTConstants.MQTT_DYNAMIC_BASE_TOPIC_PREFIX)) {
-			queue.add(new MqttMessageContainer(topic, message));
-		} else if (topic.equals(InterfaceTranslatorToGenericMQTTConstants.MQTT_RESPONSE_TOPIC)) {
-			// TODO: handle responses from providers
-		} else {
-			logger.warn("Unexpected message on topic: {}", topic);
-		}
+		queue.add(new MqttMessageContainer(topic, message));
 	}
 
 	//-------------------------------------------------------------------------------------------------

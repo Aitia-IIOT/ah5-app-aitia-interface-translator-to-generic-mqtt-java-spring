@@ -30,7 +30,7 @@ import ai.aitia.arrowhead.Defaults;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTConstants;
 import ai.aitia.arrowhead.it2genericmqtt.InterfaceTranslatorToGenericMQTTSystemInfo;
 import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.GeneralMqttClient;
-import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.DynamicMqttTopicHandler;
+import ai.aitia.arrowhead.it2genericmqtt.api.mqtt.utils.GenericMqttTopicHandler;
 import ai.aitia.arrowhead.it2genericmqtt.report.ReportThread;
 import eu.arrowhead.common.Utilities;
 import eu.arrowhead.common.init.ApplicationInitListener;
@@ -59,7 +59,7 @@ public class InterfaceTranslatorToGenericMQTTApplicationInitListener extends App
 	private GeneralMqttClient mqttClient;
 
 	@Autowired
-	private DynamicMqttTopicHandler mqttTopicHandler;
+	private GenericMqttTopicHandler mqttTopicHandler;
 
 	//=================================================================================================
 	// assistant methods

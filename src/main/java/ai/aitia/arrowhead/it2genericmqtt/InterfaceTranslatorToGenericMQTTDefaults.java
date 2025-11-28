@@ -26,6 +26,9 @@ public final class InterfaceTranslatorToGenericMQTTDefaults {
 	public static final String BRIDGE_CLOSING_INTERVAL_DEFAULT = "60000";
 	public static final String BRIDGE_INACTIVITY_THRESHOLD_DEFAULT = "60";
 	public static final String MQTT_HANDLER_THREADS_DEFAULT = "5";
+	public static final String PROVIDER_SERVICE_GET_RESULT_TRIES_DEFAULT = "10";
+	public static final String PROVIDER_SERVICE_GET_RESULT_WAIT_DEFAULT = "1000";
+
 
 	//=================================================================================================
 	// assistant methods
