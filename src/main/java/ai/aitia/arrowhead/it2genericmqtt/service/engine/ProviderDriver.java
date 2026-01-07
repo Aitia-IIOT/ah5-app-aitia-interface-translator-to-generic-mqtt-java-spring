@@ -16,7 +16,9 @@
 package ai.aitia.arrowhead.it2genericmqtt.service.engine;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidParameterException;
+import java.util.Base64;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,10 +30,10 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.util.Pair;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ai.aitia.arrowhead.Constants;
@@ -106,7 +108,7 @@ public class ProviderDriver {
 					InterfaceTranslatorToGenericMQTTConstants.MQTT_RESPONSE_TOPIC,
 					MqttQoS.EXACTLY_ONCE.value(),
 					Map.of(),
-					payload == null ? null : mapper.readValue(payload, Object.class));
+					convertPayloadForTemplate(payload, contentType));
 			final MqttMessage msg = new MqttMessage(mapper.writeValueAsBytes(template));
 			client.publish(baseTopic + operation, msg);
 		} catch (final MqttException ex) {
@@ -135,8 +137,8 @@ public class ProviderDriver {
 				try {
 					return Pair.of(
 							responseTemplate.status(),
-							responseTemplate.payload() == null ? Optional.empty() : Optional.of(mapper.writeValueAsBytes(responseTemplate.payload())));
-				} catch (final JsonProcessingException ex) {
+							responseTemplate.payload() == null ? Optional.empty() : extractPayload(responseTemplate));
+				} catch (final IOException ex) {
 					throw new InternalServerError(ex.getMessage(), ex);
 				}
 			} else {
@@ -165,5 +167,47 @@ public class ProviderDriver {
 		final Object value = settings.get(key);
 
 		return (type.isInstance(value) ? (T) value : defaultValue);
+	}
+
+	//-------------------------------------------------------------------------------------------------
+	private Object convertPayloadForTemplate(byte[] payload, final String contentType) throws IOException {
+		logger.debug("ProviderDriver.convertPayloadForTemplate started...");
+
+		if (payload == null) {
+			return null;
+		}
+
+		switch (contentType) {
+		case MediaType.TEXT_PLAIN_VALUE:
+		case MediaType.APPLICATION_XML_VALUE:
+			return new String(payload, StandardCharsets.UTF_8);
+		case MediaType.APPLICATION_JSON_VALUE:
+			return mapper.readValue(payload, Object.class);
+		default:
+			// in case of any other content we use Base64 enconding
+			return new String(Base64.getEncoder().encode(payload), StandardCharsets.UTF_8);
+		}
+	}
+
+	//-------------------------------------------------------------------------------------------------
+	private Optional<byte[]> extractPayload(final MqttResponseTemplate response) throws IOException {
+		logger.debug("ProviderDriver.extractPayload started...");
+
+		if (response.payload() == null) {
+			return null;
+		}
+
+		byte[] payloadBytes = null;
+		if (response.payload() instanceof final String strPayload) {
+			if (Utilities.isEmpty(strPayload)) {
+				return null;
+			}
+
+			payloadBytes = strPayload.getBytes();
+		} else {
+			payloadBytes = mapper.writeValueAsBytes(response.payload());
+		}
+
+		return Optional.of(payloadBytes);
 	}
 }

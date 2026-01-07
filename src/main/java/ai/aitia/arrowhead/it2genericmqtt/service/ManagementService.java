@@ -18,6 +18,7 @@ package ai.aitia.arrowhead.it2genericmqtt.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.apache.logging.log4j.LogManager;
@@ -40,6 +41,7 @@ import eu.arrowhead.common.exception.InvalidParameterException;
 import eu.arrowhead.common.http.model.DataModelsOperationModel;
 import eu.arrowhead.common.http.model.HttpInterfaceModel;
 import eu.arrowhead.common.http.model.HttpOperationModel;
+import eu.arrowhead.common.intf.properties.IPropertyValidator;
 import eu.arrowhead.common.intf.properties.PropertyValidatorType;
 import eu.arrowhead.common.intf.properties.PropertyValidators;
 import eu.arrowhead.common.mqtt.model.MqttInterfaceModel;
@@ -147,9 +149,9 @@ public class ManagementService {
 
 		if (sysInfo.getTargetInterface().equals(intf.templateName())) {
 			switch (intf.templateName()) {
-			case Constants.GENERIC_HTTP_INTERFACE_TEMPLATE_NAME:
-			case Constants.GENERIC_HTTPS_INTERFACE_TEMPLATE_NAME:
-				return isAppropriateGenericHttpInterface(intf.properties(), targetOperation);
+			case Constants.GENERIC_MQTT_INTERFACE_TEMPLATE_NAME:
+			case Constants.GENERIC_MQTTS_INTERFACE_TEMPLATE_NAME:
+				return isAppropriateGenericMqttInterface(intf.properties(), targetOperation);
 			default:
 				// not supported interface => do nothing
 			}
@@ -159,41 +161,42 @@ public class ManagementService {
 	}
 
 	//-------------------------------------------------------------------------------------------------
-	private boolean isAppropriateGenericHttpInterface(final Map<String, Object> properties, final String targetOperation) {
-		logger.debug("isAppropriateGenericHttpInterface started...");
+	private boolean isAppropriateGenericMqttInterface(final Map<String, Object> properties, final String targetOperation) {
+		logger.debug("isAppropriateGenericMqttInterface started...");
 
 		try {
 			// address
-			if (!properties.containsKey(HttpInterfaceModel.PROP_NAME_ACCESS_ADDRESSES)) {
+			if (!properties.containsKey(MqttInterfaceModel.PROP_NAME_ACCESS_ADDRESSES)) {
 				return false;
 			}
 			propertyValidators.getValidator(PropertyValidatorType.NOT_EMPTY_ADDRESS_LIST).validateAndNormalize(properties.get(HttpInterfaceModel.PROP_NAME_ACCESS_ADDRESSES));
 
 			// port
-			if (!properties.containsKey(HttpInterfaceModel.PROP_NAME_ACCESS_PORT)) {
+			if (!properties.containsKey(MqttInterfaceModel.PROP_NAME_ACCESS_PORT)) {
 				return false;
 			}
 			propertyValidators.getValidator(PropertyValidatorType.PORT).validateAndNormalize(properties.get(HttpInterfaceModel.PROP_NAME_ACCESS_PORT));
 
-			// base path
-			if (!properties.containsKey(HttpInterfaceModel.PROP_NAME_BASE_PATH)) {
+			// base topic
+			if (!properties.containsKey(MqttInterfaceModel.PROP_NAME_BASE_TOPIC)) {
 				return false;
 			}
 
-			if ((properties.get(HttpInterfaceModel.PROP_NAME_BASE_PATH) instanceof final String basePath)
+			if ((properties.get(MqttInterfaceModel.PROP_NAME_BASE_TOPIC) instanceof final String basePath)
 					&& Utilities.isEmpty(basePath)) {
 				return false;
 			}
 
 			// operations
-			if (!properties.containsKey(HttpInterfaceModel.PROP_NAME_OPERATIONS)) {
+			if (!properties.containsKey(MqttInterfaceModel.PROP_NAME_OPERATIONS)) {
 				return false;
 			}
-			@SuppressWarnings("unchecked")
-			final Map<String, HttpOperationModel> normalized = (Map<String, HttpOperationModel>) propertyValidators.getValidator(PropertyValidatorType.HTTP_OPERATIONS)
-					.validateAndNormalize(properties.get(HttpInterfaceModel.PROP_NAME_OPERATIONS));
 
-			return normalized.containsKey(targetOperation);
+			@SuppressWarnings("unchecked")
+			final Set<String> normalized = (Set<String>) propertyValidators.getValidator(PropertyValidatorType.NOT_EMPTY_STRING_SET)
+					.validateAndNormalize(properties.get(MqttInterfaceModel.PROP_NAME_OPERATIONS), "OPERATION");
+
+			return normalized.contains(targetOperation);
 		} catch (final InvalidParameterException __) {
 			return false;
 		}
