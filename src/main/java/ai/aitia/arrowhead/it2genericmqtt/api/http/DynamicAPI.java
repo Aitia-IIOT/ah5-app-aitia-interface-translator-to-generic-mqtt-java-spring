@@ -18,10 +18,10 @@ package ai.aitia.arrowhead.it2genericmqtt.api.http;
 import java.io.IOException;
 import java.util.Optional;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -69,7 +69,7 @@ public class DynamicAPI {
 
 		try {
 			final String payloadBase64 = processor.extractPayload(httpServletRequest);
-			final Pair<Integer, Optional<String>> result = service.doBridgeOperation(pathId, payloadBase64, originalContentType, origin);
+			final Triple<Integer, Optional<String>, Optional<Boolean>> result = service.doBridgeOperation(pathId, payloadBase64, originalContentType, origin);
 			handleResponse(httpServletRequest, httpServletResponse, result, origin);
 		} catch (final Throwable t) {
 			handleException(t, httpServletResponse, origin);
@@ -80,7 +80,11 @@ public class DynamicAPI {
 	// assistant methods
 
 	//-------------------------------------------------------------------------------------------------
-	private void handleResponse(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse, final Pair<Integer, Optional<String>> result, final String origin) {
+	private void handleResponse(
+			final HttpServletRequest httpServletRequest,
+			final HttpServletResponse httpServletResponse,
+			final Triple<Integer, Optional<String>, Optional<Boolean>> result,
+			final String origin) {
 		logger.debug("handleResponse started...");
 
 		try {
@@ -88,9 +92,9 @@ public class DynamicAPI {
 			if (!Utilities.isEmpty(acceptedContentType)) {
 				httpServletResponse.setContentType(acceptedContentType);
 			}
-			httpServletResponse.setStatus(result.getFirst());
-			if (result.getSecond().isPresent()) {
-				final byte[] resultBytes = processor.extractResult(result.getSecond().get());
+			httpServletResponse.setStatus(result.getLeft());
+			if (result.getMiddle().isPresent()) {
+				final byte[] resultBytes = processor.extractResult(result.getMiddle().get());
 				httpServletResponse.getOutputStream().write(resultBytes);
 				httpServletResponse.getOutputStream().flush();
 			}

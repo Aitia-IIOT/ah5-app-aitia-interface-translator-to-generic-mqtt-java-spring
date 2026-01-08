@@ -21,10 +21,12 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -70,7 +72,7 @@ public class DynamicService {
 	// methods
 
 	//-------------------------------------------------------------------------------------------------
-	public Pair<Integer, Optional<String>> doBridgeOperation(final String endpointId, final String payloadBase64, final String originalContentType, final String origin) {
+	public Triple<Integer, Optional<String>, Optional<Boolean>> doBridgeOperation(final String endpointId, final String payloadBase64, final String originalContentType, final String origin) {
 		logger.debug("doBridgeOperation started...");
 		Assert.isTrue(!Utilities.isEmpty(origin), "origin is missing");
 
@@ -100,7 +102,7 @@ public class DynamicService {
 			}
 
 			// calling the target operation
-			final Pair<Integer, Optional<byte[]>> response = providerDriver.callOperation(
+			final Triple<Integer, Optional<byte[]>, Optional<Boolean>> response = providerDriver.callOperation(
 					model.bridgeId(),
 					model.operation(),
 					model.targetInterface(),
@@ -110,14 +112,15 @@ public class DynamicService {
 					model.authorizationToken(),
 					model.interfaceTranslatorSettings());
 
-			validator.crossCheckModelAndResult(model, response.getSecond(), origin);
+			validator.crossCheckModelAndResult(model, response.getMiddle(), origin);
 
 			// translate result if necessary
-			final String result = handleResult(model, response.getSecond());
+			final Pair<String, Boolean> result = handleResult(model, response.getMiddle(), response.getRight());
 
-			return Pair.of(
-					response.getFirst(),
-					Utilities.isEmpty(result) ? Optional.empty() : Optional.of(result));
+			return Triple.of(
+					response.getLeft(),
+					result == null ? Optional.empty() : Optional.of(result.getFirst()),
+					result == null ? Optional.empty() : Optional.of(result.getSecond()));
 		} catch (final ExternalServerError ex) {
 			if (!ABORT_MSG.equals(ex.getMessage())) {
 				sendReport(model, TranslationBridgeEventState.EXTERNAL_ERROR, ex.getMessage());
@@ -176,13 +179,14 @@ public class DynamicService {
 	}
 
 	//-------------------------------------------------------------------------------------------------
-	private String handleResult(final NormalizedTranslationBridgeModel model, final Optional<byte[]> result) {
+	private Pair<String, Boolean> handleResult(final NormalizedTranslationBridgeModel model, final Optional<byte[]> result, final Optional<Boolean> originalIsJson) {
 		logger.debug("handleResult started...");
 
 		if (result.isEmpty() || result.get().length == 0) {
 			return null;
 		}
 
+		boolean isJson = originalIsJson.get();
 		String output = new String(Base64.getEncoder().encode(result.get()), StandardCharsets.UTF_8);
 		if (model.resultDataModelTranslator() != null) {
 			// checking if bridge is still exists
@@ -190,13 +194,16 @@ public class DynamicService {
 				throw new ExternalServerError("Translation bridge is aborted");
 			}
 
-			output = dmEngine.translate(
+			final Pair<String, String> translationResult = dmEngine.translate(
 					model.bridgeId(),
 					model.resultDataModelTranslator(),
 					output,
-					model.interfaceTranslatorSettings()).getFirst();
+					model.interfaceTranslatorSettings());
+			
+			output = translationResult.getFirst();
+			isJson = translationResult.getSecond().equals(MediaType.APPLICATION_JSON_VALUE);
 		}
 
-		return output;
+		return Pair.of(output, isJson);
 	}
 }

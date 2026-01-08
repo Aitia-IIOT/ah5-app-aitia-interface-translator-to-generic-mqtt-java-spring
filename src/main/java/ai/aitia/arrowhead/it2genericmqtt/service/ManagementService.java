@@ -41,7 +41,6 @@ import eu.arrowhead.common.exception.InvalidParameterException;
 import eu.arrowhead.common.http.model.DataModelsOperationModel;
 import eu.arrowhead.common.http.model.HttpInterfaceModel;
 import eu.arrowhead.common.http.model.HttpOperationModel;
-import eu.arrowhead.common.intf.properties.IPropertyValidator;
 import eu.arrowhead.common.intf.properties.PropertyValidatorType;
 import eu.arrowhead.common.intf.properties.PropertyValidators;
 import eu.arrowhead.common.mqtt.model.MqttInterfaceModel;

@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttException;
@@ -79,7 +80,7 @@ public class ProviderDriver {
 	// methods
 
 	//-------------------------------------------------------------------------------------------------
-	public Pair<Integer, Optional<byte[]>> callOperation(
+	public Triple<Integer, Optional<byte[]>, Optional<Boolean>> callOperation(
 			final UUID bridgeId,
 			final String operation,
 			final String targetInterface,
@@ -135,9 +136,15 @@ public class ProviderDriver {
 				providerResponseMap.remove(traceId);
 
 				try {
-					return Pair.of(
+					Pair<Optional<byte[]>, Optional<Boolean>> extracted = null;
+					if (responseTemplate.payload() != null) {
+						extracted = extractPayload(responseTemplate);
+					}
+					
+					return Triple.of(
 							responseTemplate.status(),
-							responseTemplate.payload() == null ? Optional.empty() : extractPayload(responseTemplate));
+							extracted == null ? Optional.empty() : extracted.getFirst(),
+							extracted == null ? Optional.empty() : extracted.getSecond());
 				} catch (final IOException ex) {
 					throw new InternalServerError(ex.getMessage(), ex);
 				}
@@ -190,13 +197,16 @@ public class ProviderDriver {
 	}
 
 	//-------------------------------------------------------------------------------------------------
-	private Optional<byte[]> extractPayload(final MqttResponseTemplate response) throws IOException {
+	private Pair<Optional<byte[]>, Optional<Boolean>> extractPayload(final MqttResponseTemplate response) throws IOException { // payload in bytes, is payload a JSON
 		logger.debug("ProviderDriver.extractPayload started...");
 
 		if (response.payload() == null) {
-			return null;
+			return Pair.of(
+					Optional.empty(),
+					Optional.empty());
 		}
 
+		boolean isJson = false;
 		byte[] payloadBytes = null;
 		if (response.payload() instanceof final String strPayload) {
 			if (Utilities.isEmpty(strPayload)) {
@@ -205,9 +215,12 @@ public class ProviderDriver {
 
 			payloadBytes = strPayload.getBytes();
 		} else {
+			isJson = true;
 			payloadBytes = mapper.writeValueAsBytes(response.payload());
 		}
 
-		return Optional.of(payloadBytes);
+		return Pair.of(
+				Optional.of(payloadBytes),
+				Optional.of(isJson));
 	}
 }

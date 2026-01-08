@@ -23,12 +23,12 @@ import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Triple;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -221,17 +221,21 @@ public class DynamicMqttMessageContainerHandler implements Runnable {
 
 		final String endpointId = extractEndpointId(request.getBaseTopic());
 		final String payloadBase64 = extractPayload(request);
-		final Pair<Integer, Optional<String>> result = service.doBridgeOperation(
+		final Triple<Integer, Optional<String>, Optional<Boolean>> result = service.doBridgeOperation(
 				endpointId,
 				payloadBase64,
 				InterfaceTranslatorToGenericMQTTConstants.MQTT_ORIGINAL_MIME_TYPE,
 				request.getBaseTopic() + request.getOperation());
 
-		final int statusCode = result.getFirst();
+		final int statusCode = result.getLeft();
 		Object resultPayload = null;
-		if (result.getSecond().isPresent()) {
-			final byte[] resultBytes = extractResult(result.getSecond().get());
-			resultPayload = mapper.readValue(resultBytes, Object.class);
+		if (result.getMiddle().isPresent()) {
+			final byte[] resultBytes = extractResult(result.getMiddle().get());
+			if (result.getRight().get()) {
+				resultPayload = mapper.readValue(resultBytes, Object.class);
+			} else {
+				resultPayload = new String(resultBytes, StandardCharsets.UTF_8);
+			}
 		}
 
 		if (!Utilities.isEmpty(request.getResponseTopic())) {
