@@ -1,0 +1,10 @@
+/target/
+.project
+.classpath
+.settings/
+/common-utils/.factorypath
+.checkstyle
+/.factorypath
+/*.log
+*.lck
+/
