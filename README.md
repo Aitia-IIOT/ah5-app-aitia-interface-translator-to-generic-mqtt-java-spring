@@ -13,7 +13,7 @@ This project provides an [interface translation provider](https://aitia-iiot.git
 
 **to interfaces**
 
-* generic_mqttp
+* generic_mqtt
 * generic_mqtts
 
 ## How to Start the app
