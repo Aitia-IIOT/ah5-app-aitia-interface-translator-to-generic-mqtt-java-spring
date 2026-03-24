@@ -86,6 +86,7 @@ public class GeneralMqttClient {
 	public void destroy() throws MqttException {
 		logger.debug("GeneralMqttClient.destroy started...");
 
+		client.disconnect();
 		client.close();
 		client = null;
 	}
