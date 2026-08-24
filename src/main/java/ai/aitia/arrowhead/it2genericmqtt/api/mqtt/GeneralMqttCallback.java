@@ -51,7 +51,7 @@ public class GeneralMqttCallback implements MqttCallback {
 	@Override
 	public void messageArrived(final String topic, final MqttMessage message) throws Exception {
 		logger.debug("messageArrived started...");
-		
+
 		queue.add(new MqttMessageContainer(topic, message));
 	}
 

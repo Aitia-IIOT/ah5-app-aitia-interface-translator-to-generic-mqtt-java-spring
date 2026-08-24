@@ -37,6 +37,7 @@ import eu.arrowhead.common.exception.AuthException;
 import eu.arrowhead.common.exception.ForbiddenException;
 import eu.arrowhead.common.http.HttpUtilities;
 import eu.arrowhead.common.http.filter.ArrowheadFilter;
+import eu.arrowhead.common.security.SecurityUtilities;
 import eu.arrowhead.dto.ErrorMessageDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -63,7 +64,7 @@ public class BridgeFilter extends ArrowheadFilter {
 		logger.debug("BridgeFilter.doFilterInternal started...");
 
 		try {
-			final String requestTarget = request.getRequestURL().toString();
+			final String requestTarget = SecurityUtilities.getDecodedUri(request.getRequestURL().toString());
 			if (requestTarget.contains(InterfaceTranslatorToGenericMQTTConstants.HTTP_API_DYNAMIC_PATH)
 					&& !isBridgeAllowed(request)) {
 				throw new ForbiddenException("Requester has no permission to use this operation", requestTarget);
@@ -80,7 +81,7 @@ public class BridgeFilter extends ArrowheadFilter {
 	private boolean isBridgeAllowed(final HttpServletRequest request) {
 		logger.debug("BridgeFilter.isBridgeAllowed started...");
 
-		final String requestTarget = Utilities.stripEndSlash(request.getRequestURI().toString());
+		final String requestTarget = Utilities.stripEndSlash(SecurityUtilities.getDecodedUri(request.getRequestURI().toString()));
 		final String[] targetParts = requestTarget.split("/");
 
 		if (targetParts.length < 5) {

@@ -92,7 +92,7 @@ public class ManagementFilter extends ArrowheadFilter {
 		logger.debug("ManagementFilter.doFilterInternal started...");
 
 		try {
-			final String requestTarget = request.getRequestURL().toString();
+			final String requestTarget = SecurityUtilities.getDecodedUri(request.getRequestURL().toString());
 			if (requestTarget.contains(InterfaceTranslatorToGenericMQTTConstants.HTTP_API_BRIDGE_MANAGEMENT_PATH)) {
 				boolean allowed = false;
 
