@@ -58,10 +58,10 @@ public class GenericMqttTopicHandler extends Thread {
 
 	@Resource(name = InterfaceTranslatorToGenericMQTTConstants.MQTT_GENERAL_QUEUE)
 	private BlockingQueue<MqttMessageContainer> queue;
-	
+
 	@Resource(name = InterfaceTranslatorToGenericMQTTConstants.PROVIDER_RESPONSE_MAP)
 	private Map<String, Optional<MqttResponseTemplate>> providerResponseMap;
-	
+
 	@Autowired
 	private ObjectMapper mapper;
 
@@ -131,7 +131,7 @@ public class GenericMqttTopicHandler extends Thread {
 		this.threadpool = (ThreadPoolExecutor) Executors.newFixedThreadPool(numThreads);
 		filters.sort((a, b) -> a.order() - b.order());
 	}
-	
+
 	//-------------------------------------------------------------------------------------------------
 	private MqttResponseTemplate parseMqttMessage(final MqttMessageContainer msgContainer) {
 		logger.debug("parseMqttMessage started...");

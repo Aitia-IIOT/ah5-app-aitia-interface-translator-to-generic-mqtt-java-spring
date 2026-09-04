@@ -80,6 +80,7 @@ public class ProviderDriver {
 	// methods
 
 	//-------------------------------------------------------------------------------------------------
+	@SuppressWarnings("checkstyle:ParameterNumber")
 	public Triple<Integer, Optional<byte[]>, Optional<Boolean>> callOperation(
 			final UUID bridgeId,
 			final String operation,
@@ -140,7 +141,7 @@ public class ProviderDriver {
 					if (responseTemplate.payload() != null) {
 						extracted = extractPayload(responseTemplate);
 					}
-					
+
 					return Triple.of(
 							responseTemplate.status(),
 							extracted == null ? Optional.empty() : extracted.getFirst(),
@@ -177,7 +178,7 @@ public class ProviderDriver {
 	}
 
 	//-------------------------------------------------------------------------------------------------
-	private Object convertPayloadForTemplate(byte[] payload, final String contentType) throws IOException {
+	private Object convertPayloadForTemplate(final byte[] payload, final String contentType) throws IOException {
 		logger.debug("ProviderDriver.convertPayloadForTemplate started...");
 
 		if (payload == null) {

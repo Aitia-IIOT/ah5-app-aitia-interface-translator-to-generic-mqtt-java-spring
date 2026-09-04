@@ -199,7 +199,7 @@ public class DynamicService {
 					model.resultDataModelTranslator(),
 					output,
 					model.interfaceTranslatorSettings());
-			
+
 			output = translationResult.getFirst();
 			isJson = translationResult.getSecond().equals(MediaType.APPLICATION_JSON_VALUE);
 		}
