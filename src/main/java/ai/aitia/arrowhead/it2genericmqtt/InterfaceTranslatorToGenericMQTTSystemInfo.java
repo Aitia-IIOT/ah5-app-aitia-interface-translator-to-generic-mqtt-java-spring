@@ -114,7 +114,7 @@ public class InterfaceTranslatorToGenericMQTTSystemInfo extends SystemInfo {
 
 	//=================================================================================================
 	// assistant methods
-	
+
 	//-------------------------------------------------------------------------------------------------
 	@Override
 	protected void customInit() {
